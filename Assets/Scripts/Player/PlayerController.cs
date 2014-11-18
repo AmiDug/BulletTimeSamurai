@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 	public float speed = 6f;
 	//public float maxSpeed = 8f;
 	public bool onGround = false;
+	public bool canDash = false;
 	public float jumpForce = 350f;
 
 	// Use this for initialization
@@ -34,15 +35,28 @@ public class PlayerController : MonoBehaviour
 
 	void Jump()
 	{
-		if (onGround == true)
+		float axisV = Input.GetAxisRaw("Vertical");
+		float axisH = Input.GetAxisRaw("Horizontal");
+
+		if (onGround)
 		{
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
+		}
+		else if (!onGround && canDash)
+		{
+			rigidbody2D.velocity = new Vector3(0f, 0f, 0f);
+
+			rigidbody2D.AddForce(Vector2.up * 500f * axisV);
+			rigidbody2D.AddForce(Vector2.right * 250f * axisH);
+
+			canDash = false;
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		onGround = true;
+		canDash = true;
 	}
 
 	void OnTriggerExit2D(Collider2D coll)
