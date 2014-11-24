@@ -7,13 +7,17 @@ public class PlayerController : MonoBehaviour
 	public float speed = 6f;
 	//public float maxSpeed = 8f;
 	public bool onGround = false;
-	public bool canDash = false;
+	public bool turnedRight = true;
 	public float jumpForce = 350f;
+
+	Rigidbody2D rigid;
+	Transform trans;
 
 	// Use this for initialization
 	void Start()
 	{
-
+		rigid = this.GetComponent<Rigidbody2D>();
+		trans = this.GetComponent<Transform>();
 	}
 
 	// Update is called once per frame
@@ -25,7 +29,26 @@ public class PlayerController : MonoBehaviour
 	private void HandleInput()
 	{
 
-		rigidbody2D.velocity = new Vector3(speed * Input.GetAxisRaw("Horizontal"), rigidbody2D.velocity.y, 0f);
+		rigid.velocity = new Vector3(speed * Input.GetAxisRaw("Horizontal"), rigid.velocity.y, 0f);
+
+		//if (rigid.velocity.x != 0)
+		//{
+		//	anim.SetBool("Running", true);
+		//}
+		//else
+		//{
+		//	anim.SetBool("Running", false);
+		//}
+
+		if (Input.GetAxisRaw("Horizontal") < 0 && turnedRight)
+		{
+			Flip();
+		}
+
+		if (Input.GetAxisRaw("Horizontal") > 0 && !turnedRight)
+		{
+			Flip();
+		}
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -33,34 +56,25 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	void Flip()
+	{
+		turnedRight = !turnedRight;
+		trans.localScale = new Vector3(trans.localScale.x * -1, trans.localScale.y, trans.localScale.z);
+	}
+
 	void Jump()
 	{
-		float axisV = Input.GetAxisRaw("Vertical");
-		float axisH = Input.GetAxisRaw("Horizontal");
-
-		if (onGround)
+		if (onGround && rigid.velocity.y == 0)
 		{
-			rigidbody2D.AddForce(Vector2.up * jumpForce);
-		}
-		else if (!onGround && canDash)
-		{
-			rigidbody2D.velocity = new Vector3(0f, 0f, 0f);
-
-			rigidbody2D.AddForce(Vector2.up * 500f * axisV);
-			rigidbody2D.AddForce(Vector2.right * 250f * axisH);
-
-			canDash = false;
+			onGround = false;
+			rigid.AddForce(Vector2.up * jumpForce);
+			//anim.SetBool("Jumping", true);
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		onGround = true;
-		canDash = true;
-	}
-
-	void OnTriggerExit2D(Collider2D coll)
-	{
-		onGround = false;
+		//anim.SetBool("Jumping", false);
 	}
 }
