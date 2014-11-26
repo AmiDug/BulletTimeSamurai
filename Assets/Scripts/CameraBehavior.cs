@@ -4,31 +4,49 @@ using System.Collections;
 public class CameraBehavior : MonoBehaviour
 {
 
-    public GameObject player;
-    public float X = 0.05f;
+	public GameObject player;
+	public float camMoveTime = 0.15f;
+	public float yOffset = 1f;
+	public float lowestY;
+	public float highestY;
+	public float lowestX;
+	public float highestX;
 
-    // Use this for initialization
-    void Start()
-    {
-        var playerPosX = player.transform.position.x;
-        var playerPosY = player.transform.position.y;
+	// Use this for initialization
+	void Start()
+	{
+		player = GameObject.FindWithTag("Player");
 
-        this.transform.localPosition = new Vector3(playerPosX, playerPosY, this.transform.position.z);
-    }
+		var playerPosX = player.transform.position.x;
+		var playerPosY = player.transform.position.y;
 
-    // Update is called once per frame
-    void Update()
-    {
-        MoveCam(player.transform.localPosition.x, player.transform.localPosition.y);
-    }
+		this.transform.localPosition = new Vector3(playerPosX, playerPosY, -10f);
+	}
 
-    public void MoveCam(float posX, float posY)
-    {
-        float camPosX = transform.localPosition.x;
-        float camPosY = transform.localPosition.y;
+	// Update is called once per frame
+	void Update()
+	{
+		MoveCam(player.transform.localPosition.x, player.transform.localPosition.y);
+	}
 
-        float offsetY = camPosY - posY;
+	public void MoveCam(float posX, float posY)
+	{
+		float camPosX = transform.localPosition.x;
+		float camPosY = transform.localPosition.y;
 
-        this.transform.localPosition = new Vector3(Mathf.Lerp(camPosX, posX, X), (camPosY - offsetY) * 0.55f, transform.localPosition.z);
-    }
+		Vector3 newPos = new Vector3(Mathf.Lerp(camPosX, posX, camMoveTime), Mathf.Lerp(camPosY, posY + yOffset, 0.25f), -10f);
+
+		if (newPos.x > lowestX && newPos.x < highestX)
+		{
+			this.transform.localPosition = new Vector3(newPos.x, camPosY, -10f);
+		}
+
+		//if (newPos.y > lowestY && newPos.y < highestY)
+		//{
+		//	this.transform.localPosition = new Vector3(camPosX, newPos.y, -10f);
+		//}
+
+		//this.transform.localPosition = newPos;
+
+	}
 }
