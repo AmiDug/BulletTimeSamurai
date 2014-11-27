@@ -48,7 +48,7 @@ public class BulletTime : MonoBehaviour
 
 		Time.timeScale = bulletTimeScale;
 		playerC.speed = playerC.speed * 2f;
-		playerR.gravityScale = playerR.gravityScale * 2;
+		//playerR.gravityScale = playerR.gravityScale * 2;
 	}
 
 	void StopBulletTime()
@@ -57,7 +57,7 @@ public class BulletTime : MonoBehaviour
 
 		Time.timeScale = 1.0f;
 		playerC.speed = playerC.speed / 2f;
-		playerR.gravityScale = playerR.gravityScale / 2;
+		//playerR.gravityScale = playerR.gravityScale / 2;
 	}
 
 	void OnBulletTime(bool zoomIn)

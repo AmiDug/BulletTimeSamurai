@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-
+		StartCoroutine(removeTimer()); 
 	}
 
 	// Update is called once per frame
@@ -18,9 +18,17 @@ public class Bullet : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll == GameObject.FindWithTag("Player"))
-		{
-			Debug.Log("NOOOOOooo");
-		}
+		//if (coll.tag =="Player")
+		//{
+		//	Debug.Log("NOOOOOooo");
+		//}
+	}
+
+	IEnumerator removeTimer()
+	{
+		yield return new WaitForSeconds(4.0f);
+
+		DestroyObject(this.gameObject);
+		yield return null;
 	}
 }
