@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update() // R U SRS IT WAS SERIOUSLY ONLY TO ENABLE INTERPOLATION
+	void Update()
 	{
 		HandleInput();
 	}

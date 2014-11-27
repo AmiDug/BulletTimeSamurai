@@ -29,6 +29,6 @@ public class Sentry : MonoBehaviour
 		GameObject firedBullet = GameObject.Instantiate(bullet, bulletPosition, new Quaternion(0f, 0f, 0f, 0f)) as GameObject;
 
 		bulletRB = firedBullet.GetComponent<Rigidbody2D>();
-		bulletRB.AddForce((Vector2.right * 1000f) * -1f);
+		bulletRB.AddForce((Vector2.right * -1000f) * transform.localScale.x);
 	}
 }
