@@ -20,7 +20,7 @@ public class CameraBehavior : MonoBehaviour
 		var playerPosX = player.transform.position.x;
 		var playerPosY = player.transform.position.y;
 
-		this.transform.localPosition = new Vector3(playerPosX, playerPosY, -10f);
+		this.transform.localPosition = new Vector3(playerPosX, (playerPosY + yOffset) - playerPosY, -10f);
 	}
 
 	// Update is called once per frame
@@ -34,17 +34,17 @@ public class CameraBehavior : MonoBehaviour
 		float camPosX = transform.localPosition.x;
 		float camPosY = transform.localPosition.y;
 
-		Vector3 newPos = new Vector3(Mathf.Lerp(camPosX, posX, camMoveTime), Mathf.Lerp(camPosY, posY + yOffset, 0.25f), -10f);
+		Vector3 newPos = new Vector3(Mathf.Lerp(camPosX, posX, camMoveTime), Mathf.Lerp(camPosY, (posY + yOffset) - posY, 0.25f), -10f);
 
 		if (newPos.x > lowestX && newPos.x < highestX)
 		{
 			this.transform.localPosition = new Vector3(newPos.x, camPosY, -10f);
 		}
 
-		//if (newPos.y > lowestY && newPos.y < highestY)
-		//{
-		//	this.transform.localPosition = new Vector3(camPosX, newPos.y, -10f);
-		//}
+		if (newPos.y > lowestY && newPos.y < highestY)
+		{
+			this.transform.localPosition = new Vector3(camPosX, newPos.y, -10f);
+		}
 
 		//this.transform.localPosition = newPos;
 

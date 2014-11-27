@@ -10,6 +10,7 @@ public class BulletTime : MonoBehaviour
 	GameObject player;
 	PlayerController playerC;
 	Rigidbody2D playerR;
+	GameObject mainCam;
 
 	// Use this for initialization
 	void Start()
@@ -17,6 +18,7 @@ public class BulletTime : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerC = player.GetComponent<PlayerController>();
 		playerR = player.GetComponent<Rigidbody2D>();
+		mainCam = GameObject.Find("MainCamera");
 	}
 
 	// Update is called once per frame
@@ -33,24 +35,42 @@ public class BulletTime : MonoBehaviour
 				StopBulletTime();
 			}
 		}
+
+		if (bulletTimeOn)
+		{
+			OnBulletTime(bulletTimeOn);
+		}
 	}
 
 	void StartBulletTime()
 	{
 		bulletTimeOn = true;
 
-		playerC.speed = playerC.speed * 3f;
-		playerR.gravityScale = playerR.gravityScale * 4;
 		Time.timeScale = bulletTimeScale;
+		playerC.speed = playerC.speed * 2f;
+		playerR.gravityScale = playerR.gravityScale * 2;
 	}
 
 	void StopBulletTime()
 	{
 		bulletTimeOn = false;
 
-		playerC.speed = playerC.speed / 3f;
-		playerR.gravityScale = playerR.gravityScale / 4;
 		Time.timeScale = 1.0f;
+		playerC.speed = playerC.speed / 2f;
+		playerR.gravityScale = playerR.gravityScale / 2;
+	}
+
+	void OnBulletTime(bool zoomIn)
+	{
+
+
+		if (zoomIn)
+		{
+			if (mainCam.camera.orthographicSize > 3)
+			{
+				mainCam.camera.orthographicSize = Mathf.Lerp(5f, 3f, 0.1f);
+			}
+		}
 	}
 
 	void OnGUI()
