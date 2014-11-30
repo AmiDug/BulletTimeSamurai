@@ -13,14 +13,12 @@ public class PlayerController : MonoBehaviour
 	Rigidbody2D rigid;
 	Transform trans;
 
-	// Use this for initialization
 	void Start()
 	{
 		rigid = this.GetComponent<Rigidbody2D>();
 		trans = this.GetComponent<Transform>();
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		HandleInput();
@@ -30,15 +28,6 @@ public class PlayerController : MonoBehaviour
 	{
 
 		rigid.velocity = new Vector3(speed * Input.GetAxisRaw("Horizontal"), rigid.velocity.y, 0f);
-
-		//if (rigid.velocity.x != 0)
-		//{
-		//	anim.SetBool("Running", true);
-		//}
-		//else
-		//{
-		//	anim.SetBool("Running", false);
-		//}
 
 		if (Input.GetAxisRaw("Horizontal") < 0 && turnedRight)
 		{
@@ -68,13 +57,11 @@ public class PlayerController : MonoBehaviour
 		{
 			onGround = false;
 			rigid.AddForce(Vector2.up * jumpForce);
-			//anim.SetBool("Jumping", true);
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		onGround = true;
-		//anim.SetBool("Jumping", false);
 	}
 }

@@ -5,6 +5,7 @@ public class PlayerEventHandler : MonoBehaviour
 {
 	Transform trans;
 	Rigidbody2D rigid;
+	public bool alive = true;
 
 	// Use this for initialization
 	void Start()
@@ -21,12 +22,19 @@ public class PlayerEventHandler : MonoBehaviour
 
 	}
 
+	void KillPlayer()
+	{
+		Debug.Log("Player is kill :(");
+
+		alive = false;
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		if (coll.tag == "Bullet")
 		{
-			Debug.Log(coll);
 			Destroy(coll.gameObject);
+			KillPlayer();
 		}
 	}
 }

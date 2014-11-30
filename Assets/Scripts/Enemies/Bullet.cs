@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		StartCoroutine(removeTimer()); 
+		StartCoroutine(removeTimer());
 	}
 
 	// Update is called once per frame
