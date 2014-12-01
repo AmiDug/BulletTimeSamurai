@@ -3,11 +3,12 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+	PlayerEventHandler eventHandler;
 
 	public float speed = 6f;
 	//public float maxSpeed = 8f;
 	public bool onGround = false;
-	public bool turnedRight = true;
+	public static bool turnedRight = true;
 	public float jumpForce = 350f;
 
 	Rigidbody2D rigid;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
+		eventHandler = this.GetComponent<PlayerEventHandler>();
 		rigid = this.GetComponent<Rigidbody2D>();
 		trans = this.GetComponent<Transform>();
 	}
@@ -42,6 +44,11 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Jump();
+		}
+
+		if (Input.GetMouseButtonDown(0))
+		{
+			eventHandler.Attack_1();
 		}
 	}
 
