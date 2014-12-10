@@ -12,7 +12,7 @@ public class Sentry : MonoBehaviour
 	void Start()
 	{
 		player = GameObject.FindWithTag("Player");
-		bulletPosition = new Vector3(transform.localPosition.x - 0.3f, transform.localPosition.y + 0.35f, transform.localPosition.z);
+		bulletPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.35f, transform.localPosition.z);
 	}
 
 	// Update is called once per frame
