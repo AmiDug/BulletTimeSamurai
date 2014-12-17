@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
 
 	IEnumerator removeTimer()
 	{
-		yield return new WaitForSeconds(4.0f);
+		yield return new WaitForSeconds(1.5f);
 
 		DestroyObject(this.gameObject);
 		yield return null;
