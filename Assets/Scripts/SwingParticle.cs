@@ -31,7 +31,15 @@ public class SwingParticle : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		transform.Translate(particleSpeed * transform.localScale.x * Time.deltaTime, 0f, 0f, Space.Self);
+		if (playerVelocity != 0)
+		{
+			transform.Translate((particleSpeed + playerVelocity) * Time.deltaTime, 0f, 0f, Space.Self);
+		}
+		else
+		{
+			transform.Translate((particleSpeed) * transform.localScale.x * Time.deltaTime, 0f, 0f, Space.Self);
+		}
+
 
 		float oldOpacity = color.color.a;
 		color.color = new Color(1f, 1f, 1f, Mathf.Lerp(oldOpacity, 0f, 0.35f));
