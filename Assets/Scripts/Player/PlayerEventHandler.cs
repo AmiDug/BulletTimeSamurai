@@ -6,8 +6,8 @@ public class PlayerEventHandler : MonoBehaviour
 	Transform trans;
 	Rigidbody2D rigid;
 	public GameObject swingParticle;
-	public bool alive = true;
 	public float particleSpeed = 30f;
+    public bool canDie = false;
 
 	// Use this for initialization
 	void Start()
@@ -22,6 +22,7 @@ public class PlayerEventHandler : MonoBehaviour
 	void Update()
 	{
 		//Debug.Log(Time.deltaTime.ToString());
+        
 	}
 
 	public void Attack_1()
@@ -49,9 +50,10 @@ public class PlayerEventHandler : MonoBehaviour
 
 	void KillPlayer()
 	{
-		Debug.Log("Player is kill :(");
-
-		alive = false;
+      if (canDie)
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
@@ -60,6 +62,9 @@ public class PlayerEventHandler : MonoBehaviour
 		{
 			Destroy(coll.gameObject);
 			KillPlayer();
+            
 		}
+   
 	}
+    
 }
