@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BulletTime : MonoBehaviour
 {
-    public float bulletTime = 100.0f;
+    public float bulletTime = 1000.0f;
     public bool bulletTimeOn = false;
     public float bulletTimeScale = 0.15f;
     public float bulletSpeed = 20000f;
@@ -15,6 +15,7 @@ public class BulletTime : MonoBehaviour
     GameObject mainCam;
     Bullet bullet;
     PlayerController walkSpeed;
+    Sentry timeToWait;
     void Start()
     {
 
@@ -25,20 +26,28 @@ public class BulletTime : MonoBehaviour
         bullet = GetComponent<Bullet>();
         walkSpeed = GetComponent<PlayerController>();
         StartCoroutine(DrainBulletTime());
+        timeToWait = GameObject.Find("Sentry").GetComponent<Sentry>();
+        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKey(KeyCode.LeftShift) && !bulletTimeOn)
         {
-            if (!bulletTimeOn)
-            {
-                StartBulletTime();
-            }
-            else
-            {
-                StopBulletTime();
-            }
+            //if (!bulletTimeOn)
+            //{
+            //    StartBulletTime();
+            //}
+            //else
+            //{
+            //    StopBulletTime();
+            //}
+
+            StartBulletTime();
+        }
+        else if(!Input.GetKey(KeyCode.LeftShift) && bulletTimeOn)
+        {
+            StopBulletTime();
         }
     }
 
@@ -48,6 +57,8 @@ public class BulletTime : MonoBehaviour
         {
             bulletTimeOn = true;
             bulletSpeed /= 8f;
+            walkSpeed.speed /= 2f;
+            timeToWait.timeToWait *= 2f;
         }
         else
         {
@@ -60,6 +71,8 @@ public class BulletTime : MonoBehaviour
         bulletTimeOn = false;
 
         bulletSpeed *= 8f;
+        walkSpeed.speed *= 2f;
+        timeToWait.timeToWait /= 2f;
     }
 
     void OnGUI()
@@ -75,7 +88,7 @@ public class BulletTime : MonoBehaviour
             {
                 if (bulletTimeOn)
                 {
-                    if (bulletTime > 0 && bulletTime <= 100)
+                    if (bulletTime > 0 && bulletTime <= 1000)
                     {
                         bulletTime--;
                     }

@@ -8,6 +8,8 @@ public class Sentry : MonoBehaviour
     Vector3 bulletPosition;
     Rigidbody2D bulletRB;
     BulletTime bulletTime;
+    public float timeLeft = 0.0f;
+    public float timeToWait = 0.3f;
 
     // Use this for initialization
     void Start()
@@ -24,6 +26,13 @@ public class Sentry : MonoBehaviour
         {
             FireBullet();
         }
+
+        if (timeLeft >= timeToWait)
+        {
+            FireBullet();
+            timeLeft = 0f;
+        }
+        timeLeft += Time.deltaTime;
     }
 
     void FireBullet()
@@ -32,5 +41,6 @@ public class Sentry : MonoBehaviour
 
         bulletRB = firedBullet.GetComponent<Rigidbody2D>();
         bulletRB.AddForce((Vector2.right * -bulletTime.bulletSpeed) * transform.localScale.x);
+        
     }
 }
