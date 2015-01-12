@@ -3,27 +3,33 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
+    SpriteRenderer renderer;
+    void Start()
+    {
+        renderer = this.GetComponent<SpriteRenderer>();
 
-	void Start()
-	{
-		StartCoroutine(removeTimer());
-	}
+        if (renderer == null)
+        {
+            Debug.Log("DAMN IT");
+        }
 
-	void Update()
-	{
+    }
 
-	}
+    void Update()
+    {
+        if (!renderer.isVisible)
+        {
+            DestroyObject(this.gameObject);
+        }
+    }
 
-	void OnTriggerEnter2D(Collider2D coll)
-	{
-		
-	}
+    void OnTriggerEnter2D(Collider2D coll)
+    {
 
-	IEnumerator removeTimer()
-	{
-		yield return new WaitForSeconds(1.5f);
+    }
 
-		DestroyObject(this.gameObject);
-		yield return null;
-	}
+    void Remove()
+    {
+        DestroyObject(this.gameObject);
+    }
 }
