@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Coded by Adam "bq" Haglund
+
 public class CameraBehavior : MonoBehaviour
 {
 	Transform transform;
