@@ -5,14 +5,19 @@ public class Sentry : MonoBehaviour
 {
 	GameObject player;
 	public GameObject bullet;
-	Vector3 bulletPosition;
+	public GameObject bulletPosition;
 	Rigidbody2D bulletRB;
+	BulletTime bulletTime;
+	BTS global;
+	public float timeLeft = 0.0f;
+	public float timeToWait = 0.3f;
 
 	// Use this for initialization
 	void Start()
 	{
 		player = GameObject.FindWithTag("Player");
-		bulletPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.35f, transform.localPosition.z);
+		bulletTime = player.GetComponent<BulletTime>();
+		global = GameObject.Find("GameScripts").GetComponent<BTS>();
 	}
 
 	// Update is called once per frame
@@ -20,15 +25,19 @@ public class Sentry : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			FireBullet();
+			Shoot();
 		}
+
+		if (timeLeft >= timeToWait)
+		{
+			Shoot();
+			timeLeft = 0f;
+		}
+		timeLeft += Time.deltaTime;
 	}
 
-	void FireBullet()
+	void Shoot()
 	{
-		GameObject firedBullet = GameObject.Instantiate(bullet, bulletPosition, new Quaternion(0f, 0f, 0f, 0f)) as GameObject;
-
-		bulletRB = firedBullet.GetComponent<Rigidbody2D>();
-		bulletRB.AddForce((Vector2.right * -20000f) * transform.localScale.x);
+		global.ShootBullet(bulletPosition.transform);
 	}
 }
