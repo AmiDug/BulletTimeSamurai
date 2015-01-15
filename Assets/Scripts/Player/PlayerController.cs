@@ -7,9 +7,8 @@ public class PlayerController : MonoBehaviour
 
 	public float speed = 6f;
 	//public float maxSpeed = 8f;
-	public bool onGround = false;
 	public static bool turnedRight = true;
-	public float jumpForce = 350f;
+	public float jumpForce = 150f;
 
 	Rigidbody2D rigid;
 	Transform trans;
@@ -41,11 +40,6 @@ public class PlayerController : MonoBehaviour
 			Flip();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Jump();
-		}
-
 		if (Input.GetMouseButtonDown(0))
 		{
 			eventHandler.Attack_1();
@@ -58,17 +52,15 @@ public class PlayerController : MonoBehaviour
 		trans.localScale = new Vector3(trans.localScale.x * -1, trans.localScale.y, trans.localScale.z);
 	}
 
-	void Jump()
-	{
-		if (onGround && rigid.velocity.y == 0)
-		{
-			onGround = false;
-			rigid.AddForce(Vector2.up * jumpForce);
-		}
-	}
+	
 
-	void OnTriggerEnter2D(Collider2D coll)
+	void OnCollisionStay2D(Collision2D coll)
 	{
-		onGround = true;
+        
+        if (coll.gameObject.name == "Ground" && (Input.GetKey(KeyCode.Space)))
+        {
+            rigidbody2D.AddForce(Vector3.up * jumpForce);
+            Debug.Log("AYE");
+        }
 	}
 }
