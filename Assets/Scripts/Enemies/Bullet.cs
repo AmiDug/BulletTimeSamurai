@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
 
 	void Update()
 	{
-		trans.Translate(direction * bulletTime.bulletSpeed * Time.deltaTime, Space.Self);
+		trans.Translate(-direction * bulletTime.bulletSpeed * Time.deltaTime, Space.Self);
 
 		if (!renderer.isVisible)
 		{

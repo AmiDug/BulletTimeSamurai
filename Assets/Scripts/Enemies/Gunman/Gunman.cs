@@ -3,27 +3,35 @@ using System.Collections;
 
 public class Gunman : MonoBehaviour
 {
-
-	Vector3 bulletStartPostition;
-	public GameObject bullet;
-	Rigidbody2D bulletRB;
+	BTS global;
+	GameObject bulletStartPostition;
 	BulletTime bulletTime;
+
+	public float i = 0;
+	public int timeToShoot = 1;
 
 	void Start()
 	{
-		bulletStartPostition = GameObject.Find("BulletStartPosition").transform.position;
+		global = GameObject.Find("GameScripts").GetComponent<BTS>();
+		bulletStartPostition = GameObject.Find("BulletStartPosition");
 		bulletTime = GameObject.FindGameObjectWithTag("Player").GetComponent<BulletTime>();
 	}
 
 	void Update()
 	{
+		if (i >= timeToShoot)
+		{
+			Shoot();
 
+			i = 0;
+		}
+
+		i += Time.deltaTime;
 	}
 
 	public void Shoot()
 	{
-		GameObject firedBullet = GameObject.Instantiate(bullet, bulletStartPostition, new Quaternion(0f, 0f, 0f, 0f)) as GameObject;
-		bulletRB = firedBullet.GetComponent<Rigidbody2D>();
-		bulletRB.AddForce((Vector2.right * -bulletTime.bulletSpeed) * transform.localScale.x);
+		global.ShootBullet(bulletStartPostition.transform);
+		Debug.Log("Shooting");
 	}
 }
