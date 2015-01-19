@@ -39,16 +39,19 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BTS.cs" />
      <Compile Include="Assets\Scripts\BulletTime.cs" />
      <Compile Include="Assets\Scripts\CameraBehavior.cs" />
      <Compile Include="Assets\Scripts\Enemies\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Gunman\Gunman.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Gunman\LaserHandler.cs" />
      <Compile Include="Assets\Scripts\Enemies\Sentry\Sentry.cs" />
      <Compile Include="Assets\Scripts\ParticleHandler.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
