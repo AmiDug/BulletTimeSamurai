@@ -5,7 +5,7 @@ public class BulletTime : MonoBehaviour
 {
 	public float bulletTime = 1000.0f;
 	public bool bulletTimeOn = false;
-	public float bulletTimeScale = 0.15f;
+	public float bulletTimeScale = 2f;
 	public float bulletSpeed = 100f;
 	bool debugMode = true;
 
@@ -14,7 +14,7 @@ public class BulletTime : MonoBehaviour
 	Rigidbody2D playerR;
 	GameObject mainCam;
 	PlayerController walkSpeed;
-	Sentry timeToWait;
+	Sentry sentry;
 
 	void Start()
 	{
@@ -25,22 +25,17 @@ public class BulletTime : MonoBehaviour
 		mainCam = GameObject.Find("MainCamera");
 		walkSpeed = player.GetComponent<PlayerController>();
 		StartCoroutine(DrainBulletTime());
-		timeToWait = GameObject.Find("Sentry").GetComponent<Sentry>();
+		if (GameObject.FindObjectsOfType<Sentry>().Length > 0)
+		{
+			sentry = GameObject.Find("Sentry").GetComponent<Sentry>();
+		}
+
 	}
 
 	void Update()
 	{
 		if (Input.GetKey(KeyCode.LeftShift) && !bulletTimeOn)
 		{
-			//if (!bulletTimeOn)
-			//{
-			//    StartBulletTime();
-			//}
-			//else
-			//{
-			//    StopBulletTime();
-			//}
-
 			StartBulletTime();
 		}
 		else if (!Input.GetKey(KeyCode.LeftShift) && bulletTimeOn)
@@ -53,10 +48,17 @@ public class BulletTime : MonoBehaviour
 	{
 		if (bulletTime > 0)
 		{
-			bulletTimeOn = true;
-			bulletSpeed /= 8f;
-			walkSpeed.speed /= 2f;
-			timeToWait.timeToWait *= 2f;
+			try
+			{
+				bulletTimeOn = true;
+				bulletSpeed /= bulletTimeScale * 4f;
+				walkSpeed.speed /= bulletTimeScale;
+				sentry.timeToWait *= bulletTimeScale;
+			}
+			catch (System.NullReferenceException)
+			{
+				
+			} 
 		}
 		else
 		{
@@ -66,11 +68,17 @@ public class BulletTime : MonoBehaviour
 
 	void StopBulletTime()
 	{
-		bulletTimeOn = false;
-
-		bulletSpeed *= 8f;
-		walkSpeed.speed *= 2f;
-		timeToWait.timeToWait /= 2f;
+		try
+		{
+			bulletTimeOn = false;
+			bulletSpeed *= bulletTimeScale * 4f;
+			walkSpeed.speed *= bulletTimeScale;
+			sentry.timeToWait /= bulletTimeScale;
+		}
+		catch (System.NullReferenceException)
+		{
+			
+		} 
 	}
 
 	void OnGUI()
