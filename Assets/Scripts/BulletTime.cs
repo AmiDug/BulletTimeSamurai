@@ -9,23 +9,31 @@ public class BulletTime : MonoBehaviour
 	public float bulletSpeed = 100f;
 	bool debugMode = true;
 
+	BTS global;
 	GameObject player;
 	PlayerController playerC;
 	Rigidbody2D playerR;
 	GameObject mainCam;
 	PlayerController walkSpeed;
 	Sentry sentry;
+	Gunman gunman;
 
 	void Start()
 	{
-
+		global = GameObject.Find("GameScripts").GetComponent<BTS>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerC = player.GetComponent<PlayerController>();
 		playerR = player.GetComponent<Rigidbody2D>();
 		mainCam = GameObject.Find("MainCamera");
 		walkSpeed = player.GetComponent<PlayerController>();
 		StartCoroutine(DrainBulletTime());
-		if (GameObject.FindObjectsOfType<Sentry>().Length > 0)
+
+		if (global.gunmanCount > 0)
+		{
+			gunman = GameObject.FindGameObjectWithTag("Gunman").GetComponent<Gunman>(); 
+		}
+
+		if (global.sentryCount > 0)
 		{
 			sentry = GameObject.Find("Sentry").GetComponent<Sentry>();
 		}
@@ -54,6 +62,8 @@ public class BulletTime : MonoBehaviour
 				bulletSpeed /= bulletTimeScale * 4f;
 				walkSpeed.speed /= bulletTimeScale;
 				sentry.timeToWait *= bulletTimeScale;
+
+				gunman.gunRotationSpeed = 2f;
 			}
 			catch (System.NullReferenceException)
 			{

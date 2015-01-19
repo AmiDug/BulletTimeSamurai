@@ -38,15 +38,6 @@ public class Gunman : MonoBehaviour
 
 		gunTransforms.rotation = Quaternion.Slerp(gunTransforms.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime * gunRotationSpeed);
 
-		//if (i >= timeToShoot)
-		//{
-		//	Shoot();
-
-		//	i = 0;
-		//}
-
-		//i += Time.deltaTime;
-
 		if (Input.GetKeyDown(KeyCode.F))
 		{
 			Shoot();

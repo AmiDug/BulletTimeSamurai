@@ -6,9 +6,15 @@ public class BTS : MonoBehaviour
 	public GameObject bullet;
 	private BulletTime bulletTime;
 
+	public int sentryCount = 0;
+	public int gunmanCount = 0;
+
 	void Start()
 	{
 		bulletTime = GameObject.FindWithTag("Player").GetComponent<BulletTime>();
+
+		sentryCount = GameObject.FindGameObjectsWithTag("Sentry").Length;
+		gunmanCount = GameObject.FindGameObjectsWithTag("Gunman").Length;
 	}
 
 	void Update()
