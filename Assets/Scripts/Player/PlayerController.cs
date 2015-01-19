@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour
 	PlayerEventHandler eventHandler;
 
 	public float speed = 6f;
-	//public float maxSpeed = 8f;
-	public static bool turnedRight = true;
+	public bool turnedRight = true;
 	public float jumpForce = 150f;
 
 	Rigidbody2D rigid;
@@ -17,7 +16,8 @@ public class PlayerController : MonoBehaviour
 	{
 		eventHandler = this.GetComponent<PlayerEventHandler>();
 		rigid = this.GetComponent<Rigidbody2D>();
-		trans = this.GetComponent<Transform>();
+        trans = this.GetComponent<Transform>();
+
 	}
 
 	void Update()
@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour
 	void Flip()
 	{
 		turnedRight = !turnedRight;
-		trans.localScale = new Vector3(trans.localScale.x * -1, trans.localScale.y, trans.localScale.z);
+
+            trans.localScale = new Vector3(trans.localScale.x * -1, trans.localScale.y, trans.localScale.z);     
 	}
 
 	
@@ -60,7 +61,6 @@ public class PlayerController : MonoBehaviour
         if (coll.gameObject.name == "Ground" && (Input.GetKey(KeyCode.Space)))
         {
             rigidbody2D.AddForce(Vector3.up * jumpForce);
-            Debug.Log("AYE");
         }
 	}
 }
