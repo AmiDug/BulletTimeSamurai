@@ -25,7 +25,7 @@ public class BTS : MonoBehaviour
 	public void ShootBullet(Transform transform)
 	{
 		GameObject firedBullet = GameObject.Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-		firedBullet.transform.localScale = new Vector3(transform.localScale.x, 0.55f, 1f);
+		firedBullet.transform.localScale = new Vector3(firedBullet.transform.localScale.x * transform.localScale.x, firedBullet.transform.localScale.y, firedBullet.transform.localScale.z);
 		firedBullet.GetComponent<Bullet>().direction = transform.right;
 
 		//firedBullet.rigidbody2D.AddForce((Vector2.right * bulletTime.bulletSpeed) * -transform.localScale.x);
