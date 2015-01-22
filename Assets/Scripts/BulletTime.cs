@@ -18,6 +18,10 @@ public class BulletTime : MonoBehaviour
 	Sentry sentry;
 	Gunman gunman;
 
+	/////////////////////////////////////////////
+	/// SIMON EDITED
+	/////////////////////////////////////////////
+
 	void Start()
 	{
 		global = GameObject.Find("GameScripts").GetComponent<BTS>();
@@ -28,16 +32,23 @@ public class BulletTime : MonoBehaviour
 		walkSpeed = player.GetComponent<PlayerController>();
 		StartCoroutine(DrainBulletTime());
 
-		if (global.gunmanCount > 0)
+		if (global.gunmanCount > 0 && global.gunmanCount < 2)
 		{
-			gunman = GameObject.FindGameObjectWithTag("Gunman").GetComponent<Gunman>(); 
+			gunman = GameObject.FindGameObjectWithTag("Gunman").GetComponent<Gunman>();
+
+			if (gunman == null)
+			{
+				Debug.Log("Couldn't get gunman!");
+			}
+			gunman.gunRotationSpeed /= 2f;
 		}
 
-		if (global.sentryCount > 0)
+		if (global.sentryCount > 0 && global.gunmanCount < 2)
 		{
 			sentry = GameObject.Find("Sentry").GetComponent<Sentry>();
 		}
 
+		//Debug.Log(gunman.gameObject.name);
 	}
 
 	void Update()
@@ -61,13 +72,26 @@ public class BulletTime : MonoBehaviour
 				bulletTimeOn = true;
 				bulletSpeed /= bulletTimeScale * 4f;
 				walkSpeed.speed /= bulletTimeScale;
-				sentry.timeToWait *= bulletTimeScale;
 
-				gunman.gunRotationSpeed = 2f;
+				if (global.sentryCount > 0)
+				{
+					if (global.sentryCount == 1)
+					{
+						sentry.timeToWait *= bulletTimeScale;  
+					}
+				}
+
+				if (global.gunmanCount > 0)
+				{
+					if (global.gunmanCount == 1)
+					{
+						gunman.gunRotationSpeed /= 4f;
+					}
+				}
 			}
-			catch (System.NullReferenceException)
+			catch (System.NullReferenceException e)
 			{
-				
+				Debug.LogError(e); 
 			} 
 		}
 		else
@@ -83,7 +107,22 @@ public class BulletTime : MonoBehaviour
 			bulletTimeOn = false;
 			bulletSpeed *= bulletTimeScale * 4f;
 			walkSpeed.speed *= bulletTimeScale;
-			sentry.timeToWait /= bulletTimeScale;
+
+			if (global.sentryCount > 0)
+			{
+				if (global.sentryCount == 1)
+				{
+					sentry.timeToWait /= bulletTimeScale;
+				}
+			}
+
+			if (global.gunmanCount > 0)
+			{
+				if (global.gunmanCount == 1)
+				{
+					gunman.gunRotationSpeed *= 4f;
+				}
+			}
 		}
 		catch (System.NullReferenceException)
 		{

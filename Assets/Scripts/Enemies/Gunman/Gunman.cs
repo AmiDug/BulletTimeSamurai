@@ -4,7 +4,6 @@ using System.Collections;
 public class Gunman : MonoBehaviour
 {
 	BTS global;
-	GameObject bulletStartPostition;
 	BulletTime bulletTime;
 	Transform gunTransforms;
 	Transform playerT;
@@ -17,7 +16,6 @@ public class Gunman : MonoBehaviour
 	{
 		playerT = GameObject.FindGameObjectWithTag("Player").transform;
 		global = GameObject.Find("GameScripts").GetComponent<BTS>();
-		bulletStartPostition = GameObject.Find("BulletStartPosition");
 		bulletTime = GameObject.FindGameObjectWithTag("Player").GetComponent<BulletTime>();
 		gunTransforms = this.GetComponentInChildren<Transform>();
 
@@ -37,16 +35,6 @@ public class Gunman : MonoBehaviour
 		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
 		gunTransforms.rotation = Quaternion.Slerp(gunTransforms.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime * gunRotationSpeed);
-
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			Shoot();
-		}
 	}
 
-	public void Shoot()
-	{
-		global.ShootBullet(bulletStartPostition.transform);
-		Debug.Log("Shooting");
-	}
 }
