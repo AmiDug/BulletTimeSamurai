@@ -15,6 +15,8 @@ public class BTS : MonoBehaviour
 
 		sentryCount = GameObject.FindGameObjectsWithTag("Sentry").Length;
 		gunmanCount = GameObject.FindGameObjectsWithTag("Gunman").Length;
+
+		Debug.Log(sentryCount + "\n" + gunmanCount);
 	}
 
 	void Update()
