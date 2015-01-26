@@ -62,6 +62,9 @@ public class BulletTime : MonoBehaviour
 				bulletTimeOn = true;
 				bulletSpeed /= bulletTimeScale * 4f;
 				walkSpeed.speed /= bulletTimeScale;
+                rigidbody2D.mass = 11f;
+                rigidbody2D.gravityScale = 0.7f;
+                playerC.jumpForce = 1400;
 
 				for (int i = 0; i < global.sentryCount; i++)
 				{
@@ -92,6 +95,9 @@ public class BulletTime : MonoBehaviour
 			bulletTimeOn = false;
 			bulletSpeed *= bulletTimeScale * 4f;
 			walkSpeed.speed *= bulletTimeScale;
+            rigidbody2D.mass = 1f;
+            rigidbody2D.gravityScale = 2f;
+            playerC.jumpForce = 200;
 
 			for (int i = 0; i < global.sentryCount; i++)
 			{
