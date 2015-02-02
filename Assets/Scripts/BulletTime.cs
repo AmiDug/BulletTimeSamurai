@@ -5,6 +5,7 @@ public class BulletTime : MonoBehaviour
 {
 	public float bulletTime = 1000.0f;
 	public bool bulletTimeOn = false;
+	public static bool bulletTimeOnStatic = false;
 	public float bulletTimeScale = 2f;
 	public float bulletSpeed = 100f;
 	bool debugMode = true;
@@ -13,14 +14,9 @@ public class BulletTime : MonoBehaviour
 	GameObject player;
 	PlayerController playerC;
 	Rigidbody2D playerR;
-	GameObject mainCam;
 	PlayerController walkSpeed;
-	Sentry sentry;
-	Gunman gunman;
-
-	/////////////////////////////////////////////
-	/// SIMON EDITED
-	/////////////////////////////////////////////
+	GameObject[] gunmen;
+	GameObject[] sentries;
 
 	void Start()
 	{
@@ -28,27 +24,12 @@ public class BulletTime : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerC = player.GetComponent<PlayerController>();
 		playerR = player.GetComponent<Rigidbody2D>();
-		mainCam = GameObject.Find("MainCamera");
 		walkSpeed = player.GetComponent<PlayerController>();
 		StartCoroutine(DrainBulletTime());
 
-		if (global.gunmanCount > 0 && global.gunmanCount < 2)
-		{
-			gunman = GameObject.FindGameObjectWithTag("Gunman").GetComponent<Gunman>();
+		gunmen = GameObject.FindGameObjectsWithTag("Gunman");
 
-			if (gunman == null)
-			{
-				Debug.Log("Couldn't get gunman!");
-			}
-			gunman.gunRotationSpeed /= 2f;
-		}
-
-		if (global.sentryCount > 0 && global.gunmanCount < 2)
-		{
-			sentry = GameObject.Find("Sentry").GetComponent<Sentry>();
-		}
-
-		//Debug.Log(gunman.gameObject.name);
+		sentries = GameObject.FindGameObjectsWithTag("Sentry");
 	}
 
 	void Update()
@@ -61,6 +42,15 @@ public class BulletTime : MonoBehaviour
 		{
 			StopBulletTime();
 		}
+
+		if (bulletTimeOn && !bulletTimeOnStatic)
+		{
+			bulletTimeOnStatic = true;
+		}
+		else if (!bulletTimeOn && bulletTimeOnStatic)
+		{
+			bulletTimeOnStatic = false;
+		}
 	}
 
 	void StartBulletTime()
@@ -72,27 +62,25 @@ public class BulletTime : MonoBehaviour
 				bulletTimeOn = true;
 				bulletSpeed /= bulletTimeScale * 4f;
 				walkSpeed.speed /= bulletTimeScale;
+                rigidbody2D.mass = 11f;
+                rigidbody2D.gravityScale = 0.7f;
+                playerC.jumpForce = 1400;
 
-				if (global.sentryCount > 0)
+				for (int i = 0; i < global.sentryCount; i++)
 				{
-					if (global.sentryCount == 1)
-					{
-						sentry.timeToWait *= bulletTimeScale;  
-					}
+					sentries[i].GetComponent<Sentry>().timeToWait *= bulletTimeScale;
 				}
 
-				if (global.gunmanCount > 0)
+				for (int i = 0; i < global.gunmanCount; i++)
 				{
-					if (global.gunmanCount == 1)
-					{
-						gunman.gunRotationSpeed /= 4f;
-					}
+					gunmen[i].GetComponent<Gunman>().gunRotationSpeed /= 4f;
 				}
+
 			}
 			catch (System.NullReferenceException e)
 			{
-				Debug.LogError(e); 
-			} 
+				Debug.LogError(e);
+			}
 		}
 		else
 		{
@@ -107,27 +95,24 @@ public class BulletTime : MonoBehaviour
 			bulletTimeOn = false;
 			bulletSpeed *= bulletTimeScale * 4f;
 			walkSpeed.speed *= bulletTimeScale;
+            rigidbody2D.mass = 1f;
+            rigidbody2D.gravityScale = 2f;
+            playerC.jumpForce = 200;
 
-			if (global.sentryCount > 0)
+			for (int i = 0; i < global.sentryCount; i++)
 			{
-				if (global.sentryCount == 1)
-				{
-					sentry.timeToWait /= bulletTimeScale;
-				}
+				sentries[i].GetComponent<Sentry>().timeToWait /= bulletTimeScale;
 			}
 
-			if (global.gunmanCount > 0)
+			for (int i = 0; i < global.gunmanCount; i++)
 			{
-				if (global.gunmanCount == 1)
-				{
-					gunman.gunRotationSpeed *= 4f;
-				}
+				gunmen[i].GetComponent<Gunman>().gunRotationSpeed *= 4f;
 			}
 		}
 		catch (System.NullReferenceException)
 		{
-			
-		} 
+
+		}
 	}
 
 	void OnGUI()

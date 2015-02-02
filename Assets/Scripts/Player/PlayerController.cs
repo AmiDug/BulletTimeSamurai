@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
 	public float speed = 6f;
 	public bool turnedRight = true;
-	public float jumpForce = 150f;
+	public float jumpForce = 210f;
 
 	Rigidbody2D rigid;
 	Transform trans;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
 	void OnCollisionStay2D(Collision2D coll)
 	{
         
-        if (coll.gameObject.name == "Ground" && (Input.GetKey(KeyCode.Space)))
+        if (coll.gameObject.tag == "Ground" && (Input.GetKey(KeyCode.Space)))
         {
             rigidbody2D.AddForce(Vector3.up * jumpForce);
         }

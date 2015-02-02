@@ -9,6 +9,7 @@ public class Sentry : MonoBehaviour
 	Rigidbody2D bulletRB;
 	BulletTime bulletTime;
 	BTS global;
+
 	public float timeLeft = 0f;
 	public float timeToWait = 0.3f;
 
