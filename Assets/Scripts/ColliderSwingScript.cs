@@ -16,11 +16,14 @@ public class ColliderSwingScript : MonoBehaviour
 
 	}
 
-	void OnTriggerEnter(Collider2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	    {
-		if(other.gameObject.tag == "swing")
+		Debug.Log (other.tag);
+		if(other.gameObject.tag == "Swing")
 		   {
-			collider.isTrigger = true;
+			//meObject.SetActive(false);
+			collider2D.enabled = false;
+
 		   }
 		}
 }
